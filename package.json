@@ -480,8 +480,5 @@
     "*.{json,yml,yaml,css,html}": [
       "biome format --write --no-errors-on-unmatched"
     ]
-  },
-  "optionalDependencies": {
-    "@strongtz/win32-arm64-msvc": "^0.4.7"
   }
 }

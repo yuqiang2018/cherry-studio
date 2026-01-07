@@ -35,9 +35,6 @@ const allX64 = {
   '@napi-rs/system-ocr-win32-x64-msvc': '1.0.2'
 }
 
-const claudeCodeVenderPath = '@anthropic-ai/claude-agent-sdk/vendor'
-const claudeCodeVenders = ['arm64-darwin', 'arm64-linux', 'x64-darwin', 'x64-linux', 'x64-win32']
-
 const platformToArch = {
   mac: 'darwin',
   windows: 'win32',
@@ -83,30 +80,19 @@ exports.default = async function (context) {
   const arm64Filters = Object.keys(allArm64).map((f) => '!node_modules/' + f + '/**')
   const x64Filters = Object.keys(allX64).map((f) => '!node_modules/' + f + '/*')
 
-  // Determine which claudeCodeVenders to include
-  // For Windows ARM64, also include x64-win32 for compatibility
-  const includedClaudeCodeVenders = [`${archType}-${platformToArch[platform]}`]
-  if (platform === 'windows' && arch === Arch.arm64) {
-    includedClaudeCodeVenders.push('x64-win32')
-  }
-
-  const excludeClaudeCodeRipgrepFilters = claudeCodeVenders
-    .filter((f) => !includedClaudeCodeVenders.includes(f))
-    .map((f) => '!node_modules/' + claudeCodeVenderPath + '/ripgrep/' + f + '/**')
-
-  const includeClaudeCodeFilters = includedClaudeCodeVenders.map(
-    (f) => '!node_modules/' + claudeCodeVenderPath + '/ripgrep/' + f + '/**'
-  )
+  const excludeRipgrepFilters = ['arm64-darwin', 'arm64-linux', 'x64-darwin', 'x64-linux', 'x64-win32']
+    .filter((f) => {
+      // On Windows ARM64, also keep x64-win32 for emulation compatibility
+      if (platform === 'windows' && arch === Arch.arm64 && f === 'x64-win32') {
+        return false
+      }
+      return f !== `${archType}-${platformToArch[platform]}`
+    })
+    .map((f) => '!node_modules/@anthropic-ai/claude-agent-sdk/vendor/ripgrep/' + f + '/**')
 
   if (arch === Arch.arm64) {
-    await changeFilters(
-      [...x64Filters, ...excludeClaudeCodeRipgrepFilters],
-      [...arm64Filters, ...includeClaudeCodeFilters]
-    )
+    await changeFilters([...x64Filters, ...excludeRipgrepFilters], arm64Filters)
   } else {
-    await changeFilters(
-      [...arm64Filters, ...excludeClaudeCodeRipgrepFilters],
-      [...x64Filters, ...includeClaudeCodeFilters]
-    )
+    await changeFilters([...arm64Filters, ...excludeRipgrepFilters], x64Filters)
   }
 }
