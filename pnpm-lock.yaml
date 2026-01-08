@@ -1114,6 +1114,67 @@ importers:
       zod:
         specifier: ^4.1.5
         version: 4.3.4
+    optionalDependencies:
+      '@img/sharp-darwin-arm64':
+        specifier: 0.34.3
+        version: 0.34.3
+      '@img/sharp-darwin-x64':
+        specifier: 0.34.3
+        version: 0.34.3
+      '@img/sharp-libvips-darwin-arm64':
+        specifier: 1.2.4
+        version: 1.2.4
+      '@img/sharp-libvips-darwin-x64':
+        specifier: 1.2.4
+        version: 1.2.4
+      '@img/sharp-libvips-linux-arm64':
+        specifier: 1.2.4
+        version: 1.2.4
+      '@img/sharp-libvips-linux-x64':
+        specifier: 1.2.4
+        version: 1.2.4
+      '@img/sharp-linux-arm64':
+        specifier: 0.34.3
+        version: 0.34.3
+      '@img/sharp-linux-x64':
+        specifier: 0.34.3
+        version: 0.34.3
+      '@img/sharp-win32-arm64':
+        specifier: 0.34.3
+        version: 0.34.3
+      '@img/sharp-win32-x64':
+        specifier: 0.34.3
+        version: 0.34.3
+      '@libsql/darwin-arm64':
+        specifier: 0.4.7
+        version: 0.4.7
+      '@libsql/darwin-x64':
+        specifier: 0.4.7
+        version: 0.4.7
+      '@libsql/linux-arm64-gnu':
+        specifier: 0.4.7
+        version: 0.4.7
+      '@libsql/linux-x64-gnu':
+        specifier: 0.4.7
+        version: 0.4.7
+      '@libsql/win32-x64-msvc':
+        specifier: 0.4.7
+        version: 0.4.7
+      '@napi-rs/system-ocr-darwin-arm64':
+        specifier: 1.0.2
+        version: 1.0.2
+      '@napi-rs/system-ocr-darwin-x64':
+        specifier: 1.0.2
+        version: 1.0.2
+      '@napi-rs/system-ocr-win32-arm64-msvc':
+        specifier: 1.0.2
+        version: 1.0.2
+      '@napi-rs/system-ocr-win32-x64-msvc':
+        specifier: 1.0.2
+        version: 1.0.2
+      '@strongtz/win32-arm64-msvc':
+        specifier: 0.4.7
+        version: 0.4.7
 
   packages/ai-sdk-provider:
     dependencies:
@@ -2493,13 +2554,28 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@img/sharp-libvips-darwin-arm64@1.2.4':
+    resolution: {integrity: sha512-zqjjo7RatFfFoP0MkQ51jfuFZBnVE2pRiaydKJ1G/rHZvnsrHAOcQALIi9sA5co5xenQdTugCvtb1cuf78Vf4g==}
+    cpu: [arm64]
+    os: [darwin]
+
   '@img/sharp-libvips-darwin-x64@1.2.0':
     resolution: {integrity: sha512-M64XVuL94OgiNHa5/m2YvEQI5q2cl9d/wk0qFTDVXcYzi43lxuiFTftMR1tOnFQovVXNZJ5TURSDK2pNe9Yzqg==}
     cpu: [x64]
     os: [darwin]
 
+  '@img/sharp-libvips-darwin-x64@1.2.4':
+    resolution: {integrity: sha512-1IOd5xfVhlGwX+zXv2N93k0yMONvUlANylbJw1eTah8K/Jtpi15KC+WSiaX/nBmbm2HxRM1gZ0nSdjSsrZbGKg==}
+    cpu: [x64]
+    os: [darwin]
+
   '@img/sharp-libvips-linux-arm64@1.2.0':
     resolution: {integrity: sha512-RXwd0CgG+uPRX5YYrkzKyalt2OJYRiJQ8ED/fi1tq9WQW2jsQIn0tqrlR5l5dr/rjqq6AHAxURhj2DVjyQWSOA==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@img/sharp-libvips-linux-arm64@1.2.4':
+    resolution: {integrity: sha512-excjX8DfsIcJ10x1Kzr4RcWe1edC9PquDRRPx3YVCvQv+U5p7Yin2s32ftzikXojb1PIFc/9Mt28/y+iRklkrw==}
     cpu: [arm64]
     os: [linux]
 
@@ -2520,6 +2596,11 @@ packages:
 
   '@img/sharp-libvips-linux-x64@1.2.0':
     resolution: {integrity: sha512-ZW3FPWIc7K1sH9E3nxIGB3y3dZkpJlMnkk7z5tu1nSkBoCgw2nSRTFHI5pB/3CQaJM0pdzMF3paf9ckKMSE9Tg==}
+    cpu: [x64]
+    os: [linux]
+
+  '@img/sharp-libvips-linux-x64@1.2.4':
+    resolution: {integrity: sha512-tJxiiLsmHc9Ax1bz3oaOYBURTXGIRDODBqhveVHonrHJ9/+k89qbLl0bcJns+e4t4rvaNBxaEZsFtSfAdquPrw==}
     cpu: [x64]
     os: [linux]
 
@@ -4485,6 +4566,11 @@ packages:
 
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
+
+  '@strongtz/win32-arm64-msvc@0.4.7':
+    resolution: {integrity: sha512-LMU0CVfKGxKzIUawkDw6pwCNFb64DSwqEQhVAfEdLGMZcvVIdJghWB9yMW+72DHzALpwHscIssAJGhYAT4AbfA==}
+    cpu: [arm64]
+    os: [win32]
 
   '@svta/common-media-library@0.17.4':
     resolution: {integrity: sha512-nP/KThzQW5FZKdc9V7ICTa9/A7xGw66VQoLPYOEwwMZTTrISp1zIQAX4KAYJw2PN/VPnxJQJXIYbzZTXgMHctw==}
@@ -14445,10 +14531,19 @@ snapshots:
   '@img/sharp-libvips-darwin-arm64@1.2.0':
     optional: true
 
+  '@img/sharp-libvips-darwin-arm64@1.2.4':
+    optional: true
+
   '@img/sharp-libvips-darwin-x64@1.2.0':
     optional: true
 
+  '@img/sharp-libvips-darwin-x64@1.2.4':
+    optional: true
+
   '@img/sharp-libvips-linux-arm64@1.2.0':
+    optional: true
+
+  '@img/sharp-libvips-linux-arm64@1.2.4':
     optional: true
 
   '@img/sharp-libvips-linux-arm@1.2.0':
@@ -14461,6 +14556,9 @@ snapshots:
     optional: true
 
   '@img/sharp-libvips-linux-x64@1.2.0':
+    optional: true
+
+  '@img/sharp-libvips-linux-x64@1.2.4':
     optional: true
 
   '@img/sharp-libvips-linuxmusl-arm64@1.0.4':
@@ -16186,6 +16284,9 @@ snapshots:
   '@standard-schema/spec@1.1.0': {}
 
   '@standard-schema/utils@0.3.0': {}
+
+  '@strongtz/win32-arm64-msvc@0.4.7':
+    optional: true
 
   '@svta/common-media-library@0.17.4': {}
 

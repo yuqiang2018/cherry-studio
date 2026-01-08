@@ -1,5 +1,5 @@
 const { Arch } = require('electron-builder')
-const { downloadNpmPackage } = require('./utils')
+const { execSync } = require('child_process')
 
 // if you want to add new prebuild binaries packages with different architectures, you can add them here
 // please add to allX64 and allArm64 from pnpm-lock.yaml
@@ -42,26 +42,33 @@ const platformToArch = {
 }
 
 exports.default = async function (context) {
-  const arch = context.arch
-  const archType = arch === Arch.arm64 ? 'arm64' : 'x64'
-  const platform = context.packager.platform.name
+  const arch = context.arch === Arch.arm64 ? 'arm64' : 'x64'
+  const platformName = context.packager.platform.name
+  const platform = platformToArch[platformName]
 
   const downloadPackages = async (packages) => {
-    console.log('downloading packages ......')
-    const downloadPromises = []
+    // Skip if target architecture matches current system architecture
+    if (arch === process.arch) {
+      console.log(`Skipping install: target architecture (${arch}) matches current system`)
+      return
+    }
+
+    console.log('installing packages ......')
+    const packagesToInstall = []
 
     for (const name of Object.keys(packages)) {
-      if (name.includes(`${platformToArch[platform]}`) && name.includes(`-${archType}`)) {
-        downloadPromises.push(
-          downloadNpmPackage(
-            name,
-            `https://registry.npmjs.org/${name}/-/${name.split('/').pop()}-${packages[name]}.tgz`
-          )
-        )
+      if (name.includes(`${platform}`) && name.includes(`-${arch}`)) {
+        packagesToInstall.push(`${name}@${packages[name]}`)
       }
     }
 
-    await Promise.all(downloadPromises)
+    if (packagesToInstall.length > 0) {
+      console.log('Installing:', packagesToInstall.join(' '))
+      execSync(
+        `pnpm install --config.platform=${platform} --config.architecture=${arch} ${packagesToInstall.join(' ')}`,
+        { stdio: 'inherit' }
+      )
+    }
   }
 
   const changeFilters = async (filtersToExclude, filtersToInclude) => {
@@ -75,22 +82,22 @@ exports.default = async function (context) {
     context.packager.config.files[0].filter = filters
   }
 
-  await downloadPackages(arch === Arch.arm64 ? allArm64 : allX64)
+  await downloadPackages(context.arch === Arch.arm64 ? allArm64 : allX64)
 
   const arm64Filters = Object.keys(allArm64).map((f) => '!node_modules/' + f + '/**')
-  const x64Filters = Object.keys(allX64).map((f) => '!node_modules/' + f + '/*')
+  const x64Filters = Object.keys(allX64).map((f) => '!node_modules/' + f + '/**')
 
   const excludeRipgrepFilters = ['arm64-darwin', 'arm64-linux', 'x64-darwin', 'x64-linux', 'x64-win32']
     .filter((f) => {
       // On Windows ARM64, also keep x64-win32 for emulation compatibility
-      if (platform === 'windows' && arch === Arch.arm64 && f === 'x64-win32') {
+      if (platform === 'windows' && context.arch === Arch.arm64 && f === 'x64-win32') {
         return false
       }
-      return f !== `${archType}-${platformToArch[platform]}`
+      return f !== `${arch}-${platform}`
     })
     .map((f) => '!node_modules/@anthropic-ai/claude-agent-sdk/vendor/ripgrep/' + f + '/**')
 
-  if (arch === Arch.arm64) {
+  if (context.arch === Arch.arm64) {
     await changeFilters([...x64Filters, ...excludeRipgrepFilters], arm64Filters)
   } else {
     await changeFilters([...arm64Filters, ...excludeRipgrepFilters], x64Filters)
